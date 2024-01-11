@@ -10,7 +10,7 @@ metadata:
 spec:
   containers:
     - image: nginx:1.25
-      name: nginx-1
+      name: nginx1
       ports:
         - containerPort: 80
           
@@ -26,6 +26,6 @@ metadata:
 spec:
   containers:
     - image: nginx:1.24
-      name: nginx-2
+      name: nginx2
       ports:
         - containerPort: 80       

@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Pod
 metadata: 
-  name: labels-demo
+  name: labels-demo1
   labels:
     web: nginx
     version: "1.25"
@@ -18,7 +18,7 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata: 
-  name: labels-demo
+  name: labels-demo2
   labels:
     web: nginx
     version: "1.24"

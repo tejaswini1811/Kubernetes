@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: second-pod
+spec: 
+  containers:
+    - image: nginx:1.25
+      name: nginx-1
+      ports:
+        - containerPort: 80
+    - image: jenkins/jenkins:jdk17
+      name: jenkins
+      ports:
+        - containerPort: 8080

@@ -4,9 +4,9 @@ kind: Pod
 metadata: 
   name: labels-demo
   labels:
-    web: nginx
-    version: 1.25
-    environment: pre-prod
+    - web: nginx
+      version: 1.25
+      environment: pre-prod
 spec:
   containers:
     - image: nginx:1.25
@@ -20,9 +20,9 @@ kind: Pod
 metadata: 
   name: labels-demo
   labels:
-    web: nginx
-    version: 1.24
-    environment: pre-prod
+    - web: nginx
+      version: 1.24
+      environment: pre-prod
 spec:
   containers:
     - image: nginx:1.24

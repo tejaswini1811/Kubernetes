@@ -1,0 +1,25 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: init-container-demo
+  labels:
+    app: nginx
+spec:
+  initContainers:
+    - image: alpine:latest
+      name: init-cont1
+      command:
+        - sleep
+        - "5"
+    - image: alpine:latest
+      name: init-cont2
+      command:
+        - sleep
+        - "5"
+  containers:
+    - image: nginx:1.25
+      name: nginx-init
+      ports:
+        - containerPort: 80
+          protocol: TCP  

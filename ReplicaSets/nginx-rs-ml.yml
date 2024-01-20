@@ -11,8 +11,8 @@ spec:
   replicas: 6
   selector:
     matchLabels: 
-      - app: nginx
-        version: "1.25"
+      app: nginx
+      version: "1.25"
   template:
     metadata:
       name: nginx-pod

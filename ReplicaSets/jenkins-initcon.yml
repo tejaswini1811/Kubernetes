@@ -28,4 +28,4 @@ spec:
         - command: ["ping","-c","4","google.com"]
           image: alpine:3.19
           name: ping 
-      restartPolicy: Never
+      

@@ -27,7 +27,7 @@ spec:
         version: "1.25"
     spec:
       containers:
-        image: nginx:1.25
-        name: nginx
-        ports:
-          - containerPort: 80
+        - image: nginx:1.25
+          name: nginx
+          ports:
+            - containerPort: 80

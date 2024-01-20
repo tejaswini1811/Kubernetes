@@ -20,11 +20,11 @@ spec:
         purpose: cicd
     spec:
       containers:
-        image: jenkins/jenkins:jdk17
-        name: cicd
-        ports:
+        - image: jenkins/jenkins:jdk17
+          name: cicd
+          ports:
           - containerPort: 8080
       initContainers:
-        command: ["ping","-c","4","google.com"]
-        image: alpine:3.19
-        name: ping 
+        - command: ["ping","-c","4","google.com"]
+          image: alpine:3.19
+          name: ping 

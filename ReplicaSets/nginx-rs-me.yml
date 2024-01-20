@@ -17,8 +17,8 @@ spec:
       - key: version
         operator: In
         values:
-          - 1.24
-            1.25
+          - "1.24"
+          - "1.25"
   template:
     metadata:
       name: nginx-pod

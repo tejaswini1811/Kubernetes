@@ -8,7 +8,7 @@ metadata:
   name: nginx-rs
 spec:
   minReadySeconds: 5
-  replicas: 6
+  replicas: 8
   selector:
     matchLabels: 
       app: nginx

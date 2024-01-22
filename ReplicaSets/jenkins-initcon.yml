@@ -19,6 +19,7 @@ spec:
         app: jenkins
         purpose: cicd
     spec:
+      restartPolicy: Never
       containers:
         - image: jenkins/jenkins:jdk17
           name: cicd

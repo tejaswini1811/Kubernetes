@@ -25,11 +25,7 @@ spec:
           ports:
             - containerPort: 8080
       initContainers:
-        - command: 
-            - ping
-            - -c 
-            - 4 
-            - google.com
+        - command: ["ping -c 4 google.com"]
           image: alpine:3.19
           name: ping 
       

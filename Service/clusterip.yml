@@ -9,6 +9,6 @@ spec:
   ports: 
     - port: 32000
       targetPort: 80
-      selector: 
-        app: nginx
-      type: ClusterIP
+  selector: 
+    app: nginx
+  type: ClusterIP

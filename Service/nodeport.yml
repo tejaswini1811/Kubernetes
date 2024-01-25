@@ -10,6 +10,7 @@ spec:
     - port: 32000
       targetPort: 80
       nodePort: 32765
+      name: webport
   selector: 
     app: nginx
   type: NodePort

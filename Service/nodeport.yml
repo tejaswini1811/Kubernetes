@@ -9,7 +9,7 @@ spec:
   ports: 
     - port: 32000
       targetPort: 80
-      nodePort: 9000
+      nodePort: 32765
   selector: 
     app: nginx
   type: NodePort

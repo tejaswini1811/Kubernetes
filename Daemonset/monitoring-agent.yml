@@ -1,0 +1,26 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata: 
+  labels:
+    app: monitoring-agent
+  name: monitoring-ds
+spec:
+  minReadySeconds: 10
+  selector:
+    matchLabels:
+      app: monitoring-agent
+  template: 
+    metadata:
+      name: agent
+      labels:
+        app: monitoring-agent
+      spec:
+        containers:
+          - image: bitnami/node-exporter:1.7.0
+            name: agent-container
+            ports: 
+              - containerPort: 9100
+                
+            
+

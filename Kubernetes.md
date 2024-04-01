@@ -84,9 +84,9 @@ Installing K8s using Kube-adm
   wget https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.4/cri-dockerd_0.3.4.3-0.ubuntu-jammy_amd64.deb
   sudo dpkg -i cri-dockerd_0.3.4.3-0.ubuntu-jammy_amd64.deb
   ```
-* Execute the above step on all 3 nodes
-* Install kubeadm, kubectl and kubelet on 3 nodes [Refer Here](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#installing-kubeadm-kubelet-and-kubectl)
-* Execute the following on 3 nodes.
+* Execute the above step on all **3 nodes**
+* Install kubeadm, kubectl and kubelet on **3 nodes** [Refer Here](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#installing-kubeadm-kubelet-and-kubectl)
+* Execute the following on **3 nodes**.
   ```bash
     sudo apt-get update
     sudo apt-get install -y apt-transport-https ca-certificates curl
@@ -97,7 +97,7 @@ Installing K8s using Kube-adm
     sudo apt-mark hold kubelet kubeadm kubectl
   ```
 * Now Lets create a k8s cluster using kubeadm [Refer Here](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/)
-* Execute the following on master node
+* Execute the following on **master node**
 * Lets initialize the cluster using the following command as a root user.
   ```
   kubeadm init --pod-network-cidr "10.244.0.0/16" --cri-socket "unix:///var/run/cri-dockerd.sock"
@@ -118,12 +118,12 @@ Installing K8s using Kube-adm
     Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
     https://kubernetes.io/docs/concepts/cluster-administration/addons/
 
-    Then you can join any number of worker nodes by running the following on each as root:
+    Then you can join any number of **worker nodes** by running the following on each as root:
 
     kubeadm join 172.31.56.247:6443 --token 4ndbar.f10zerzr0eo5qhj6 \
             --discovery-token-ca-cert-hash sha256:f65ae5933080c24a45d79a0bfd780c9af299ca13a7f069b7ed7a9fdfeadc58b0
   ```
-* On the master node to run kubectl as regular user execute the following
+* On the **master node** to run kubectl as regular user execute the following
     ``` 
     mkdir -p $HOME/.kube
     sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
@@ -131,7 +131,7 @@ Installing K8s using Kube-adm
     ```
 * Now as a regular user execute `kubectl get nodes`
   ![preview](images/k8s1.png)
-* Now as a root user in node  execute the join command
+* Now as a root user in **node**  execute the join command
     ```
     kubeadm join 172.31.56.247:6443 --token 4ndbar.f10zerzr0eo5qhj6 \
             --discovery-token-ca-cert-hash sha256:f65ae5933080c24a45d79a0bfd780c9af299ca13a7f069b7ed7a9fdfeadc58b0 \
@@ -394,4 +394,174 @@ kubectl exec <pod-name> -- <linux command>
 ```
 Kubernetes Service
 ------------------
+* Overview
+  ![preview](images/k8s27.webp)
+* Lets use the replica set with 4 nginx replicas and create a cluster ip service which creates an internal ip accesssible within k8s cluster [Refer Here](https://github.com/tejaswini1811/Kubernetes/blob/main/Service/clusterip.yml)
+* Create and verify replica set with pods.
+  ![preview](images/k8s22.png)
+* This svc can be verified only by some Pod in k8s cluster. Lets create an experiment pod.
+* Check for accessing nginx svc using ip.
+  ![preview](images/k8s24.png)
+* K8s can expose the service to the external world
+  
+  **1. nodePort:** Expose the service to the particular port on all the nodes of k8s cluster
+  
+  **2. loadBalancer:** Exposes the service to the loadbalancer
+
+  **3. external:** Creates a DNS record which can be added to DNS servers maintaine by your org.
+* Created a clusterip, we can expose the application within the cluster.
+* Expose the above service to the nodes. 
+* [Refer Here](https://github.com/tejaswini1811/Kubernetes/blob/main/Service/nodeport.yml) for the changes
+  ![preview](images/k8s25.png)
+  ![preview](images/k8s26.png)
+* How nodeport will work.
+  ![preview](images/k8s28.webp).
+* **LoadBalancer service** in in k8s will give an extrenal ip with which we can access application through internet.
+*  Created the loadbalancer service using EKS. For EKS cluster creation is explained below.
+*  [Refer here](https://github.com/tejaswini1811/Kubernetes/blob/main/Service/loadbalancer.yml) for the loadbalancer manifest.
+  ![preview]()
+  ![preview]()
+
+Kubernetes as a Service
+----------------------- 
+* In k8s cluster we have
+   * master nodes/control plane
+   * nodes
+* Making master nodes highly available is our responsibilty and adding authorizations, addons etc is our responsibility.
+* K8s as a service is where Cloud provider manages Master nodes/cluster and HA. They also provide features for integrating k8s with other cloud services. The upgrades to the k8s cluster are easier to handle. 
+* For nodes they charge usual virtual machine costs.
+* Some clouds charge hourly for control plane.
+  
+Elastic Kubernetes Service
+--------------------------
+* [Refer Here](https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html) for creating EKS cluster.
+* create a VPC.
+  ![preview](images/k8s29.png)
+* Create subnets allowing auto assign public ip.
+  ![preview](images/k8s30.png)
+  ![preview](images/k8s31.png)
+  ![preview](images/k8s32.png)
+* create a security group.
+* creare Internet gateway and attach that with VPC. and add route in route table.
+  ![preview](images/k8s33.png)
+  ![preview](images/k8s34.png)
+* Create an IAM role for EKS Cluster.
+  ![preview](images/k8s35.png)
+* Create an IAM role for EKS Nodes.
+  ![preview](images/k8s36.png)
+* [Refer Here](https://docs.aws.amazon.com/eks/latest/userguide/view-kubernetes-resources.html#view-kubernetes-resources-permissions) for the detailed information on creating a policy with eks view access.  
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "eks:ListFargateProfiles",
+                "eks:DescribeNodegroup",
+                "eks:ListNodegroups",
+                "eks:ListUpdates",
+                "eks:AccessKubernetesApi",
+                "eks:ListAddons",
+                "eks:DescribeCluster",
+                "eks:DescribeAddonVersions",
+                "eks:ListClusters",
+                "eks:ListIdentityProviderConfigs",
+                "iam:ListRoles"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ssm:GetParameter",
+            "Resource": "arn:aws:ssm:*:348722393091:parameter/*"
+        }
+    ]
+}
+```
+* create an  IAM policy with above one.
+  ![preview](images/k8s38.png)
+* create an IAM User with administrator access and attach the above created policy.
+  ![preview](images/k8s39.png)
+  ![preview](images/k8s40.png)
+* Install AWS CLI and configure aws with access key and secrete key.
+* Install kubectl in your server to connect with our cluster.
+  ![preview](images/k8s41.png)
+* Following cmd is used to create k8s cluster using cli.
+  ```
+  aws eks create-cluster --region us-west-2 --name my-cluster --kubernetes-version 1.29 --role-arn arn:aws:iam::348722393091:role/eksClusterRole --resources-vpc-config subnetIds=subnet-0ee4148474048b6fc,subnet-037fcceecc432283a,subnet-056fac399319a4b45,securityGroupIds=sg-046a3b8da6e3bf57c
+  ```
+  ![preview](images/k8s42.png)
+  ![preview](images/k8s43.png)
+  ![preview](images/k8s44.png)
+* To connect with created cluster.
+ ```
+ aws eks --update-kubeconfig --region uss-west-2 --name my-cluster
+ kubectl get svc  (to check)
+ ```
+ ![preview](images/k8s45.png)
+* create RBAC groups using below cmd.
+  ```
+  kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-full-access.yaml
+  kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
+  ```
+  ![preview](images/k8s46.png) 
+* To create nodes I have used following cmd.
+ ```
+ aws eks create-nodegroup --cluster-name my-cluster --nodegroup-name my-nodes --scaling-config minSize=3,maxSize=4,desiredSize=3 --disk-size 20 --subnets "subnet-0ee4148474048b6fc" "subnet-037fcceecc432283a" "subnet-056fac399319a4b45" --instance-types t3.medium --ami-type AL2_x86_64 --remote-access ec2SshKey=eks,sourceSecurityGroups=sg-046a3b8da6e3bf57c --node-role arn:aws:iam::348722393091:role/eksNodeRole --capacity-type ON_DEMAND --region us-west-2
+ ```
+* Edit the config file as below. add role of above created policy and attach it to a role.
+  ```
+  kubectl edit -n kube-system configmap/aws-auth
+
+  ```
+ ![preview](images/k8s47.png)
+
+Resource Limits
+---------------
+* If we set the memory and CPU limits, then our pods will never be placed in a node which does not have enough space.
+* In replicaset ---> spec ---> template ---> spec ---> resource for setting the limits and requests.
+* request is minimum memory and CPU (lower limit)
+* limit is maximum memory and CPU (upper limit) 
+* [Refer here](https://github.com/tejaswini1811/Kubernetes/blob/main/Limits/jenkins-rs.yml) for setting the resource limits in a manifest.
+  ![preview]()
+
+Probes in Kubernetes
+--------------------
+* k8s has 3 probes
+    1. liveness probe: If this check fails, Pod will restart the container
+    2. readiness probe: If this fails, this Pod will not be served by k8s service.(k8s will not forward the request to that pod)
+    3. startup probe: k8s allows us to check this by
+         * sending a http(s) request
+         * sending a tcp request
+         * sending a grpc request
+         * send a linux command
+* [Refer Here](https://github.com/tejaswini1811/Kubernetes/blob/main/probes/jenkins-probes.yml) for example manifest.
+
+Daemonset
+---------
+* This workload creates a Pod on every node in the k8s cluster
+* This is generally used for running agents i.e. log agents, backup agents, heart beat/monitoring agents.
+  ![preview](images/k8s48.webp)
+* [Refer Here](https://github.com/tejaswini1811/Kubernetes/blob/main/Daemonset/monitoring-agent.yml) for example manifest.  
+  
+Deployment Strategies
+---------------------
+* **Recreate:** Has downtime. We to stop the application, deploy the new version and start all the application instances to bring back to the working state.
+* **Rolling Update:** We will define the % of application instances thatcan be down and what will be the % of app instances that can be used for new version.
+*  **Blue/Green or Red/Black:** When the new version has been tested and certified to meet all the requirements, the load balancer automatically switches traffic from the older version to the newer one.
+*  **A/B:**  new version is only available to a limited number of users, who are selected according to certain conditions and parameters. Location, device type, UI language, and operating system can serve as parameters for selecting these users. 
+  
+Deployments
+-----------
+* We can specify the deployment stratergy in spec. So that we can update our current version.
+* We can also go back to the previous version 
+* To undo rollout `kubectl rollout undo deployments/<name> --to-revision=1`(aftr changing the version)
+  ![preview]()
+* To check the history of our updates `kubectl rollout history deployments/<name>`
+ ![preview]()
+
+Kubernetes Namespaces
+---------------------
 * 
+ 

@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hello-namespace
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: first-job
+  namespace: hello-namespace
+spec:
+  backoffLimit: 4
+  manualSelector: true
+  selector:
+    matchLabels:
+      purpose: sleep-execution
+  template:
+    metadata:
+      labels:
+        app: alpine
+        purpose: sleep-execution
+      name: first-jobpod
+      namespace: hello-namespace
+    containers:
+      - image: alpine:3
+        name: first-job
+        command:
+          - sleep
+          - 300s
+    restartPolicy: OnFailure

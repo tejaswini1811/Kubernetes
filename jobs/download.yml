@@ -1,0 +1,30 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: download-cronjob
+  namespace: hello-namespace
+spec: 
+  schedule: 0 23 * * 1-5
+  jobTemplate:
+    metadata: 
+      name: download-spc
+      namespace: hello-namespace
+      labels:
+        download: spring-petclinic
+    spec:
+      selector: 
+        matchLabels:
+          download: spring-petclinic
+        template: 
+          metadata: 
+            name: spring-petclinic
+            namespace: hello-namespace
+          spec:
+            containers: 
+              - image: alpine:3
+                command:
+                  - wget
+                  - https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar
+            restartPolicy: OnFailure
+  

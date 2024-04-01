@@ -1,0 +1,32 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata: 
+  name: first-cronjob
+  namespace: hello-namespace
+spec:
+  jobTemplate: 
+    metadata: 
+      name: cron-job
+      namespace: hello-namespace
+    spec:
+      backoffLimit: 5
+      manualSelector: true
+      selector:
+        matchLabels:
+          purpose: cronjob-execution
+      template:
+        metadata: 
+          name: cronjob-pod
+          labels:
+            app: nginx
+            purpose: cronjob-execution
+          namespace: hello-namespace
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - image: alpine:3
+              name: cronjob
+              command: 
+                - sleep
+                - 300s

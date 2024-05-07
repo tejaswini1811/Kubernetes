@@ -549,9 +549,13 @@ Daemonset
 ---------
 * This workload creates a Pod on every node in the k8s cluster
 * This is generally used for running agents i.e. log agents, backup agents, heart beat/monitoring agents.
+  
   ![preview](images/k8s48.webp)
-* [Refer Here](https://github.com/tejaswini1811/Kubernetes/blob/main/Daemonset/monitoring-agent.yml) for example manifest.  
-  ![preview]()
+
+* [Refer Here](https://github.com/tejaswini1811/Kubernetes/blob/main/Daemonset/monitoring-agent.yml) for example manifest. 
+   
+  ![preview](images/k8s55.png)
+
 Deployment Strategies
 ---------------------
 * **Recreate:** Has downtime. We to stop the application, deploy the new version and start all the application instances to bring back to the working state.
@@ -563,7 +567,7 @@ Deployments
 -----------
 * We can specify the deployment stratergy in spec. So that we can update our current version.
 * We can also go back to the previous version 
-* To undo rollout `kubectl rollout undo deployments/<name> --to-revision=1`(aftr changing the version)
+* To undo rollout `kubectl rollout undo deployments/<name> --to-revision=1`(after changing the version)
   ![preview]()
 * To check the history of our updates `kubectl rollout history deployments/<name>`
  ![preview]()

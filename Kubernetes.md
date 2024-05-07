@@ -524,7 +524,14 @@ Resource Limits
 * request is minimum memory and CPU (lower limit)
 * limit is maximum memory and CPU (upper limit) 
 * [Refer here](https://github.com/tejaswini1811/Kubernetes/blob/main/Limits/jenkins-rs.yml) for setting the resource limits in a manifest.
-  ![preview]()
+
+  ![preview](images/k8s53.png)
+
+* I installed metrics servers to see the pods metrics
+  ```
+   kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+  ```
+  ![preview](images/k8s54.png)
 
 Probes in Kubernetes
 --------------------
@@ -544,7 +551,7 @@ Daemonset
 * This is generally used for running agents i.e. log agents, backup agents, heart beat/monitoring agents.
   ![preview](images/k8s48.webp)
 * [Refer Here](https://github.com/tejaswini1811/Kubernetes/blob/main/Daemonset/monitoring-agent.yml) for example manifest.  
-  
+  ![preview]()
 Deployment Strategies
 ---------------------
 * **Recreate:** Has downtime. We to stop the application, deploy the new version and start all the application instances to bring back to the working state.

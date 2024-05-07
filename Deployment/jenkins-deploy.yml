@@ -11,7 +11,7 @@ spec:
   selector:
     matchLabels:
       app: jenkins
-      version: "1.625.1"
+      version: "2.53"
   strategy:
     type: RollingUpdate 
     rollingUpdate:
@@ -21,11 +21,11 @@ spec:
     metadata:
       labels: 
         app: jenkins
-        version: "1.625.1"
+        version: "2.53"
       name: jenkins-pod
     spec: 
       containers:
-        - image: jenkins:1.625.1
+        - image: jenkins/jenkins:2.53
           name: jenkins-container
           ports: 
             - containerPort: 8080

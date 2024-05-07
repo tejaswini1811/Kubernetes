@@ -36,7 +36,6 @@ CNI – Container Network Interface
    * Weave Net
    * Flannel
    * Calico
-* 
 
 Architechture
 -------------

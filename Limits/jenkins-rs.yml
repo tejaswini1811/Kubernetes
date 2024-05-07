@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: Jenkins-rs
+  name: jenkins-rs
   labels:
     cicd: jenkins
 spec: 

@@ -419,8 +419,9 @@ Kubernetes Service
 * **LoadBalancer service** in in k8s will give an extrenal ip with which we can access application through internet.
 *  Created the loadbalancer service using EKS. For EKS cluster creation is explained below.
 *  [Refer here](https://github.com/tejaswini1811/Kubernetes/blob/main/Service/loadbalancer.yml) for the loadbalancer manifest.
-  ![preview]()
-  ![preview]()
+  ![preview](images/k8s50.png)
+  ![preview](images/k8s51.png)
+  ![preview](images/k8s52.png)
 
 Kubernetes as a Service
 ----------------------- 
@@ -496,7 +497,7 @@ Elastic Kubernetes Service
   ![preview](images/k8s44.png)
 * To connect with created cluster.
  ```
- aws eks --update-kubeconfig --region uss-west-2 --name my-cluster
+ aws eks update-kubeconfig --region us-west-2 --name my-cluster
  kubectl get svc  (to check)
  ```
  ![preview](images/k8s45.png)
@@ -563,5 +564,72 @@ Deployments
 
 Kubernetes Namespaces
 ---------------------
-* 
+* [Refer Here](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) for official docs.
+* Namespaces provide logical grouping.
+* Generally in k8s cluster we will have two major namespaces
+  1. **default:** This is default namespace where all the resources executed by user are created
+  2. **kube-system:** In this namespace pods/resources w.r.t running kubernetes cluster will be executing.
+* For envs, apart from production env, rest of the envs like dev, qa, test and otyher will run on same cluster using different namespaces.
+* Avoid creating a Namespace with `kube-`. `kube-` belongs to k8s.
+* Whenever we are not specifying Namespace the it will be default.
+* We have to mention namespace if resources are created in specific Namespace `--namespace <name>`.
+* To change the default namespace then `kubectl config set-context --namespace=<name>`
+  
+```yaml
+# To create a namespace
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hello-namespace
+```
+Jobs and Cronjobs
+-----------------
+* Consider a scenario where you are expected to run some activity (script) which runs for a certain time and goes to completion.
+* Many applications have **batch jobs** which run based on some schedules for a **period of time**.
+* If we have to run some job based on schedule then **cronjob** is used.
+* Crontab is in UTC(Universal Time Co-Ordinate).
+
+![preview](images/k8s49.png)
+
  
+**Job vs CronJob**
+| Feature              | Job                                 | CronJob                                  |
+|----------------------|-------------------------------------|------------------------------------------|
+| **Purpose**          | Executes a task once to completion. | Schedules and executes tasks at regular intervals. |
+| **Execution**        | Runs until completion.              | Triggers Jobs according to a cron schedule. |
+| **Use Cases**        | Batch processing, one-time scripts, data processing. | Regular backups, report generation, scheduled tasks. |
+| **Specifying Time**  | Not applicable.                     | Uses cron syntax to define schedule.     |
+| **Failure Handling** | Can be configured to retry or not.  | Can be configured to handle missed or failed executions. |
+| **Concurrency**      | Supports parallel execution of pods. | Can specify whether Jobs should run concurrently or not. |
+| **Lifecycle**        | Considered complete when the pod(s) terminate successfully. | Manages multiple Jobs over time, each triggered per the defined schedule. |
+
+* [Refer here](https://github.com/tejaswini1811/Kubernetes/blob/main/jobs/job.yml) for job manifest.
+  
+  ![preview]()
+
+* [Refer here](https://github.com/tejaswini1811/Kubernetes/blob/main/jobs/cronjob.yml) for cronjob manifest.
+
+  ![preview]()
+
+Kubernetes Storage
+------------------
+* To persist the data in the Read/Write Layer, docker has volumes.
+* K8s supports volumes to persist the data. The types of volumes which are supported by k8s are
+  **1. Volume:**
+    * This gives volume with the help of mnt namespace to the container.
+    * Volume’s lifecyle is equivalent to lifecycle of Pod
+  **2. Ephemeral Volume:**
+    * This is also temporary volume used for containers where they require any persistent storage across Pod restarts/creations.
+  **3. Persistent Volume:**
+    * This stores volumes and has no relation with life time of Pod.
+    * This uses Storage Classes which help for dynamic provisioing of storage (i.e. create azure managed disk or ebs volume or azure fileshare or aws elastic file system automatically) or admins manually provisioning storage and providing it as storage class.
+  **4. Projected Volumes** 
+
+### Kubernetes Volumes
+
+* [Refer Here](https://kubernetes.io/docs/concepts/storage/volumes/) for volumes official docs.
+* K8s volumes will be present as long as pod is alive.
+* In containersspec we have `volume mounts`(pod volumes to mount in container). In podspec we have volumes
+* If we restart the Pod, Volumes will exists.
+* Volumes can't persist thedata above or beyond the lifecycle of pod.

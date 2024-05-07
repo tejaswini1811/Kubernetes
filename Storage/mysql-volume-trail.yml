@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: mysql-volume-test
+spec:
+  containers:
+    - image: mysql:8.3.0
+      name: mysql-volume-container
+      ports:
+        - containerPort: 3306
+          name: mysql-port
+      volumeMounts:
+        - mountPath: /var/lib/mysql

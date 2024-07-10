@@ -7,8 +7,21 @@ spec:
   containers:
     - image: mysql:8.3.0
       name: mysql-volume-container
+      env:
+        - name: MYSQL_USER
+          value: admin
+        - name: MYSQL_PASSWORD
+          value: admin123
+        - name: MYSQL_ROOT_PASSWORD
+          value: rootroot  
+        - name: MYSQL_DATABASE
+          value: test 
       ports:
         - containerPort: 3306
           name: mysql-port
       volumeMounts:
         - mountPath: /var/lib/mysql
+          name: mysql-volume
+  volumes:
+    - emptyDir:
+      name: mysql-volume

@@ -566,14 +566,22 @@ Deployment Strategies
 Deployments
 -----------
 * We can specify the deployment stratergy in spec. So that we can update our current version.
+* [Refer  here](https://github.com/tejaswini1811/Kubernetes/commit/4c04c674892faa94037f600d87ece78ca1f1ed64) for deployment manifest for jenkins version 2.53.
+* Apply the manifest and check the deployment workloads.
+* To check the history of our updates `kubectl rollout history deployments/<name>`
+  
+  ![preview](images/k8s62.png)
+
+* Now change the version to 2.63 and apply the manifest and check the status.
+* [Refer here](https://github.com/tejaswini1811/Kubernetes/commit/9c51cad602eff1c5f7e19bdf5642c24814fafaca) for changes.
+  
+  ![preview](images/k8s63.png)
+
 * We can also go back to the previous version 
 * To undo rollout `kubectl rollout undo deployments/<name> --to-revision=1`(after changing the version)
   
-  ![preview]()
+  ![preview](images/k8s64.png)
 
-* To check the history of our updates `kubectl rollout history deployments/<name>`
- 
-  ![preview]()
 
 Kubernetes Namespaces
 ---------------------

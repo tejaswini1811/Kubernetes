@@ -11,7 +11,6 @@ spec:
   selector:
     matchLabels:
       app: jenkins
-      version: "2.53"
   strategy:
     type: RollingUpdate 
     rollingUpdate:
@@ -37,8 +36,11 @@ metadata:
   labels: 
     app: jenkins
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
-    - port: 32000
+    - nodePort: 32000
       targetPort: 8080
+      port: 31000
       name: webport
+  selector: 
+    app: jenkins

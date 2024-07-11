@@ -20,11 +20,11 @@ spec:
     metadata:
       labels: 
         app: jenkins
-        version: "2.53"
+        version: "2.63"
       name: jenkins-pod
     spec: 
       containers:
-        - image: jenkins/jenkins:2.53
+        - image: jenkins/jenkins:2.63
           name: jenkins-container
           ports: 
             - containerPort: 8080

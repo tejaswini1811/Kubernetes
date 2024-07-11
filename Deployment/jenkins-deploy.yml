@@ -32,7 +32,7 @@ spec:
 apiVersion: v1 
 kind: Service
 metadata: 
-  name: jenkins-service-lb
+  name: jenkins-service-np
   labels: 
     app: jenkins
 spec:

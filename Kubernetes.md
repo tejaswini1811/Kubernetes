@@ -568,9 +568,12 @@ Deployments
 * We can specify the deployment stratergy in spec. So that we can update our current version.
 * We can also go back to the previous version 
 * To undo rollout `kubectl rollout undo deployments/<name> --to-revision=1`(after changing the version)
+  
   ![preview]()
+
 * To check the history of our updates `kubectl rollout history deployments/<name>`
- ![preview]()
+ 
+  ![preview]()
 
 Kubernetes Namespaces
 ---------------------
@@ -616,30 +619,48 @@ Jobs and Cronjobs
 
 * [Refer here](https://github.com/tejaswini1811/Kubernetes/blob/main/jobs/job.yml) for job manifest.
   
-  ![preview]()
+  ![preview](images/k8s60.png)
 
 * [Refer here](https://github.com/tejaswini1811/Kubernetes/blob/main/jobs/cronjob.yml) for cronjob manifest.
 
-  ![preview]()
+  ![preview](images/k8s61.png)
 
 Kubernetes Storage
 ------------------
 * To persist the data in the Read/Write Layer, docker has volumes.
 * K8s supports volumes to persist the data. The types of volumes which are supported by k8s are
+  
   **1. Volume:**
     * This gives volume with the help of mnt namespace to the container.
     * Volume’s lifecyle is equivalent to lifecycle of Pod
+  
   **2. Ephemeral Volume:**
     * This is also temporary volume used for containers where they require any persistent storage across Pod restarts/creations.
+  
   **3. Persistent Volume:**
     * This stores volumes and has no relation with life time of Pod.
     * This uses Storage Classes which help for dynamic provisioing of storage (i.e. create azure managed disk or ebs volume or azure fileshare or aws elastic file system automatically) or admins manually provisioning storage and providing it as storage class.
+  
   **4. Projected Volumes** 
 
 ### Kubernetes Volumes
 
 * [Refer Here](https://kubernetes.io/docs/concepts/storage/volumes/) for volumes official docs.
 * K8s volumes will be present as long as pod is alive.
-* In containersspec we have `volume mounts`(pod volumes to mount in container). In podspec we have volumes
+* In containersspec we have `volume mounts`(pod volumes to mount in container). In podspec we have volumes.
+* Lets create a mysql pod with a  k8s volume and insert some data into it.
+* [refer here](https://github.com/tejaswini1811/Kubernetes/blob/main/Storage/mysql-volume-trail.yml) for manifest
+  
+  ![preview](images/k8s56.png)
+  ![preview](images/k8s57.png)
+
+* Login into pod `kubectl exec --it mysql-volume-test -- mysql -u root -p` and create some data (I have created a table).
+  
+  ![preview](images/k8s58.png)
+  
 * If we restart the Pod, Volumes will exists.
-* Volumes can't persist thedata above or beyond the lifecycle of pod.
+* Volumes can't persist the data above or beyond the lifecycle of pod.
+  
+  ![preview](images/k8s59.png)
+
+* So we need to use Persistent Volumes.

@@ -5,23 +5,18 @@ metadata:
   name: first-cronjob
   namespace: hello-namespace
 spec:
+  schedule: "25 07 * * 1-5"
   jobTemplate: 
     metadata: 
       name: cron-job
-      namespace: hello-namespace
     spec:
       backoffLimit: 5
-      manualSelector: true
-      selector:
-        matchLabels:
-          purpose: cronjob-execution
       template:
         metadata: 
           name: cronjob-pod
           labels:
             app: nginx
-            purpose: cronjob-execution
-          namespace: hello-namespace
+            purpose: cron-execution
         spec:
           restartPolicy: OnFailure
           containers:

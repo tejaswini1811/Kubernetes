@@ -22,10 +22,11 @@ spec:
         purpose: sleep-execution
       name: first-jobpod
       namespace: hello-namespace
-    containers:
-      - image: alpine:3
-        name: first-job
-        command:
-          - sleep
-          - 300s
-    restartPolicy: OnFailure
+    spec:
+      containers:
+        - image: alpine:3
+          name: first-job
+          command:
+            - sleep
+            - 300s
+      restartPolicy: OnFailure

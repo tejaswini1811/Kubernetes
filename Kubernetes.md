@@ -19,12 +19,6 @@
     * declarative (yaml)
 * To k8s we always express the desired state (What is that we want)
 * These yaml files where we describe our desired state are called as manifests.
-
-kubectl: kubernetes control
-----------------------------
-* This is a command line tool to communicate with k8s api server.
-* Inside k8s we have a Certificate Authority and keys available which are used to secure all k8s communications.
-* The kubeconfig file contians the certificate data to be connected securely as admin into k8s (This is based on installations which we have done so far)
   
 CNI – Container Network Interface
 ---------------------------------
@@ -292,10 +286,13 @@ apiVersion: <version>
 ![preview](images/k8s9.png)
 
 * Pods can run 3 types of containers
+  
   **1. Containers** => Where we run our applications
+
   **2. init containers:**
     * These containers are created one by one and only after its completion, the normal containers are created.
     * We will use these containers for any initial setup or configuration kind of purposes
+  
   **3. ephemeral containers:**
     * No guarantee containers, they are used rarely in the case of debugging or trouble shooting containers in Pod
 * Lets create a Pod with 2 init container which sleep for 5 seconds and then in container we run nginx.
@@ -672,3 +669,12 @@ Kubernetes Storage
   ![preview](images/k8s59.png)
 
 * So we need to use Persistent Volumes.
+
+### K8s Persistent Volumes
+* These help in persisting the data beyond the lifecycle of Pod
+* To work with Persistent Volumes we need to understand the following in addition to Persistent Volumes.
+  * StorageClasses
+  * PersistentVolumeClaims
+* Pod places a request for **`Persistant volume claim`**.
+* **`Persistant volume` **can be dynamycally or manually provisione for this they use **`Storage classes`**
+* 

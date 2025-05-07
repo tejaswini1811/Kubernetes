@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-sf
+spec: 
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      name: mysql-pod-sf
+      labels:
+        app: mysql
+    spec: 
+      containers:
+        - image: mysql:8.3.0
+          name: mysql-volume-container
+          env:
+            - name: MYSQL_USER
+              value: admin
+            - name: MYSQL_PASSWORD
+              value: admin123
+            - name: MYSQL_ROOT_PASSWORD
+              value: rootroot  
+            - name: MYSQL_DATABASE
+              value: test 
+          ports:
+            - containerPort: 3306
+              name: mysql-port
+      volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mysql-volume
+  volumeClaimTemplates:
+    - metadata: 
+        name: mysql-volume
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
